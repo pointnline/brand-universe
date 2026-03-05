@@ -7,383 +7,360 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #000;
-  color: #fff;
+  background: #0a0a1a;
+  color: #e0e0e0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 40px 20px 60px;
 }
-#canvas { width: 100%; height: 100%; display: block; }
 
-/* Overlay UI */
-.overlay {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-  pointer-events: none;
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 50px;
 }
-.overlay h1 {
-  font-size: 1.4rem;
+.header h1 {
+  font-size: 2.2rem;
   background: linear-gradient(135deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #45b7d1, #a855f7, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.overlay p { color: #555; font-size: 0.75rem; margin-top: 4px; }
+.header p { color: #555; font-size: 0.85rem; margin-top: 6px; }
 
-/* Info Panel */
-.info-panel {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 30, 0.85);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 20px 30px;
-  min-width: 320px;
-  max-width: 420px;
-  z-index: 10;
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
-}
-.info-panel.show { opacity: 1; }
-.info-panel .ip-emoji { font-size: 2rem; }
-.info-panel .ip-name { font-size: 1.2rem; font-weight: 700; margin: 4px 0; }
-.info-panel .ip-sub { font-size: 0.75rem; color: #888; }
-.info-panel .ip-desc { font-size: 0.8rem; color: #bbb; margin-top: 8px; line-height: 1.5; }
-.info-panel .ip-status {
-  display: inline-block;
-  font-size: 0.65rem;
-  padding: 3px 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-.ip-status.live { background: #1a3a2a; color: #4ecdc4; }
-.ip-status.building { background: #3a2a1a; color: #ffa500; }
-.ip-status.planned { background: #2a1a2a; color: #a855f7; }
-.ip-status.active { background: #1a2a3a; color: #45b7d1; }
-
-/* Layer Legend */
-.legend {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-  font-size: 0.7rem;
-  pointer-events: none;
-}
-.legend div {
+/* Stats bar */
+.stats {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 6px;
-  color: #666;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
 }
-.legend .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.stat { text-align: center; }
+.stat .num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffd700, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat .label { font-size: 0.7rem; color: #555; letter-spacing: 1px; text-transform: uppercase; }
+
+/* Org chart layout */
+.org {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-/* Controls hint */
-.controls {
-  position: fixed;
-  bottom: 10px;
-  right: 20px;
+/* Connector lines */
+.connector {
+  width: 2px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(255,215,0,0.4), rgba(255,215,0,0.1));
+}
+.connector.red { background: linear-gradient(to bottom, rgba(255,107,107,0.4), rgba(255,107,107,0.1)); }
+.connector.green { background: linear-gradient(to bottom, rgba(78,205,196,0.4), rgba(78,205,196,0.1)); }
+.connector.purple { background: linear-gradient(to bottom, rgba(168,85,247,0.4), rgba(168,85,247,0.1)); }
+.connector.blue { background: linear-gradient(to bottom, rgba(69,183,209,0.4), rgba(69,183,209,0.1)); }
+
+/* Horizontal branch line */
+.branch {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.branch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 2px;
+  left: 50%;
+  right: 50%;
+}
+.branch.traffic::before { left: calc(50% - 180px); right: calc(50% - 180px); background: rgba(255,107,107,0.25); }
+.branch.service::before { left: calc(50% - 180px); right: calc(50% - 180px); background: rgba(78,205,196,0.25); }
+.branch.engine::before { left: calc(50% - 260px); right: calc(50% - 260px); background: rgba(168,85,247,0.25); }
+.branch.trading::before { left: calc(50% - 120px); right: calc(50% - 120px); background: rgba(69,183,209,0.25); }
+
+/* Layer label */
+.layer-tag {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.layer-tag.core { color: #ffd700; border-color: #ffd70044; background: #ffd70010; }
+.layer-tag.traffic { color: #ff6b6b; border-color: #ff6b6b44; background: #ff6b6b10; }
+.layer-tag.service { color: #4ecdc4; border-color: #4ecdc444; background: #4ecdc410; }
+.layer-tag.engine { color: #a855f7; border-color: #a855f744; background: #a855f710; }
+.layer-tag.trading { color: #45b7d1; border-color: #45b7d144; background: #45b7d110; }
+
+/* Card row */
+.card-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+/* Brand Card */
+.card {
+  background: #111128;
+  border: 1px solid #1e1e3a;
+  border-radius: 14px;
+  padding: 18px 16px;
+  width: 185px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: default;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 14px 14px 0 0;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #333;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+.card .emoji { font-size: 1.8rem; margin-bottom: 6px; }
+.card .name { font-size: 0.95rem; font-weight: 700; }
+.card .sub { font-size: 0.65rem; color: #666; margin-bottom: 6px; }
+.card .desc { font-size: 0.7rem; color: #999; line-height: 1.4; }
+.card .status {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.status.live { background: #14352a; color: #4ecdc4; }
+.status.building { background: #352a14; color: #ffa500; }
+.status.planned { background: #2a1435; color: #a855f7; }
+.status.active { background: #142a35; color: #45b7d1; }
+
+/* Card colors */
+.card.gold::before { background: linear-gradient(90deg, #ffd700, #ffaa00); }
+.card.red::before { background: linear-gradient(90deg, #ff6b6b, #ff4444); }
+.card.orange::before { background: linear-gradient(90deg, #ff8c00, #ffa500); }
+.card.pink::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+.card.green::before { background: linear-gradient(90deg, #4ecdc4, #2ecc71); }
+.card.rainbow::before { background: linear-gradient(90deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #a855f7); }
+.card.purple::before { background: linear-gradient(90deg, #a855f7, #7c3aed); }
+.card.blue::before { background: linear-gradient(90deg, #45b7d1, #3b82f6); }
+
+/* Center card (bigger) */
+.card.center {
+  width: 220px;
+  padding: 22px 20px;
+  border-color: #ffd70033;
+  box-shadow: 0 0 40px rgba(255,215,0,0.08);
+}
+.card.center .emoji { font-size: 2.4rem; }
+.card.center .name { font-size: 1.15rem; }
+
+/* Flow arrows between layers */
+.flow-label {
+  font-size: 0.6rem;
+  color: #444;
+  letter-spacing: 1px;
+  padding: 2px 0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  color: #222;
   font-size: 0.65rem;
-  color: #333;
-  z-index: 10;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card { width: 155px; padding: 14px 12px; }
+  .card.center { width: 180px; }
+  .card .emoji { font-size: 1.5rem; }
+  .card .name { font-size: 0.85rem; }
+  .header h1 { font-size: 1.6rem; }
+  .stats { gap: 24px; }
+  .stat .num { font-size: 1.8rem; }
+}
+@media (max-width: 480px) {
+  body { padding: 20px 10px 40px; }
+  .card { width: 140px; padding: 12px 10px; }
+  .card-row { gap: 8px; }
 }
 </style>
 </head>
 <body>
 
-<div class="overlay">
+<div class="header">
   <h1>🌈 JAYKKo Brand Universe</h1>
-  <p>Drag to rotate · Scroll to zoom · Click a planet</p>
+  <p>조경준의 디지털 생태계</p>
 </div>
 
-<div class="legend">
-  <div><span class="dot" style="background:#ffd700"></span> Core AI</div>
-  <div><span class="dot" style="background:#ff6b6b"></span> Traffic Engine</div>
-  <div><span class="dot" style="background:#4ecdc4"></span> Service Layer</div>
-  <div><span class="dot" style="background:#a855f7"></span> Backend Engine</div>
-  <div><span class="dot" style="background:#45b7d1"></span> Trading</div>
+<div class="stats">
+  <div class="stat"><div class="num">13</div><div class="label">Brands</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Layers</div></div>
+  <div class="stat"><div class="num">23</div><div class="label">Cron Jobs</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Ambition</div></div>
 </div>
 
-<div class="info-panel" id="infoPanel">
-  <div class="ip-emoji" id="ipEmoji"></div>
-  <div class="ip-name" id="ipName"></div>
-  <div class="ip-sub" id="ipSub"></div>
-  <div class="ip-desc" id="ipDesc"></div>
-  <div class="ip-status" id="ipStatus"></div>
+<div class="org">
+
+  <!-- CORE AI -->
+  <div class="layer-tag core">CORE AI</div>
+  <div class="card-row">
+    <div class="card gold center">
+      <div class="emoji">🐕</div>
+      <div class="name">베리독</div>
+      <div class="sub">VeryDog — AI 총괄 비서</div>
+      <div class="desc">무지개빛 디지털 강아지. 13개 브랜드를 관장하는 허브.</div>
+      <div class="status active">● ACTIVE</div>
+    </div>
+  </div>
+
+  <div class="connector"></div>
+  <div class="flow-label">↓ 트래픽 생성</div>
+  <div class="connector red"></div>
+
+  <!-- TRAFFIC ENGINE -->
+  <div class="layer-tag traffic">TRAFFIC ENGINE</div>
+  <div class="card-row">
+    <div class="card red">
+      <div class="emoji">🔥</div>
+      <div class="name">CMW</div>
+      <div class="sub">Claw My Way</div>
+      <div class="desc">정오 모티베이션. 실리콘밸리 레전드 명언 + 응원.</div>
+      <div class="status active">● ACTIVE</div>
+    </div>
+    <div class="card orange">
+      <div class="emoji">✍️</div>
+      <div class="name">블로그</div>
+      <div class="sub">jaykko-blog</div>
+      <div class="desc">Hugo + GitHub Pages. SEO 장기 유입. 자동화 예정.</div>
+      <div class="status building">● BUILDING</div>
+    </div>
+    <div class="card pink">
+      <div class="emoji">🎵</div>
+      <div class="name">로파이</div>
+      <div class="sub">Lo-Fi YouTube</div>
+      <div class="desc">Suno AI 로파이 → 유튜브 + 숏폼 BGM.</div>
+      <div class="status planned">○ PLANNED</div>
+    </div>
+  </div>
+
+  <div class="connector green"></div>
+  <div class="flow-label">↓ 유입 → 전환</div>
+  <div class="connector green"></div>
+
+  <!-- SERVICE LAYER -->
+  <div class="layer-tag service">SERVICE LAYER</div>
+  <div class="card-row">
+    <div class="card green">
+      <div class="emoji">🧪</div>
+      <div class="name">AI Creative Lab</div>
+      <div class="sub">미니게임천국</div>
+      <div class="desc">38개 도구. 무료 트래픽 허브. 타임킬링 + 바이럴.</div>
+      <div class="status building">● BUILDING</div>
+    </div>
+    <div class="card rainbow">
+      <div class="emoji">🎮</div>
+      <div class="name">GAME</div>
+      <div class="sub">Gallery About ME</div>
+      <div class="desc">$0.99 PRO 멤버십. 온오프 다이어리 허브.</div>
+      <div class="status live">● LIVE</div>
+    </div>
+    <div class="card purple">
+      <div class="emoji">⭐</div>
+      <div class="name">넘버5스타</div>
+      <div class="sub">Number 5 Star</div>
+      <div class="desc">4.9~5.0 큐레이션. GAME Phase 3 통합.</div>
+      <div class="status planned">○ PLANNED</div>
+    </div>
+  </div>
+
+  <div class="connector purple"></div>
+  <div class="flow-label">↓ 인텔리전스</div>
+  <div class="connector purple"></div>
+
+  <!-- BACKEND ENGINE -->
+  <div class="layer-tag engine">BACKEND ENGINE</div>
+  <div class="card-row">
+    <div class="card red">
+      <div class="emoji">🔴</div>
+      <div class="name">RedMoon</div>
+      <div class="sub">Catch My Edge</div>
+      <div class="desc">딜 파이프라인. 접수→초벌→모니터링→딜던.</div>
+      <div class="status building">● BUILDING</div>
+    </div>
+    <div class="card green">
+      <div class="emoji">🏥</div>
+      <div class="name">넘버닥터</div>
+      <div class="sub">Number Doctor</div>
+      <div class="desc">빅4 20년차급 재무 진단. DART 기반.</div>
+      <div class="status live">● LIVE</div>
+    </div>
+    <div class="card gold">
+      <div class="emoji">🦅</div>
+      <div class="name">Eagle EYE</div>
+      <div class="sub">Insight Finder</div>
+      <div class="desc">트렌드/섹터 조기 포착 → 관련주 매핑.</div>
+      <div class="status building">● BUILDING</div>
+    </div>
+    <div class="card purple">
+      <div class="emoji">📡</div>
+      <div class="name">업계레이더</div>
+      <div class="sub">Industry Radar</div>
+      <div class="desc">신탁사/운용사/증권사 동향 감시.</div>
+      <div class="status planned">○ PLANNED</div>
+    </div>
+  </div>
+
+  <div class="connector blue"></div>
+  <div class="flow-label">↓ 자동 수익</div>
+  <div class="connector blue"></div>
+
+  <!-- TRADING -->
+  <div class="layer-tag trading">TRADING</div>
+  <div class="card-row">
+    <div class="card blue">
+      <div class="emoji">⚡</div>
+      <div class="name">경매 스나이퍼</div>
+      <div class="sub">Auction Sniper</div>
+      <div class="desc">AI 경매/공매 분석. 가치평가 자동화.</div>
+      <div class="status planned">○ PLANNED</div>
+    </div>
+    <div class="card blue">
+      <div class="emoji">📈</div>
+      <div class="name">업비트 자동매매</div>
+      <div class="sub">Crypto Bot</div>
+      <div class="desc">pyupbit 크립토 트레이딩 봇.</div>
+      <div class="status planned">○ PLANNED</div>
+    </div>
+  </div>
+
 </div>
 
-<canvas id="canvas"></canvas>
+<div class="footer">
+  🌈🌙 JAYKKo Brand Universe v2 — Built by 베리독 | 2026.03.05
+</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-// Brand data
-const brands = [
-  // Core (orbit 0 = center)
-  { name: '베리독', sub: 'VeryDog', emoji: '🐕', desc: 'AI 총괄 비서. 무지개빛 디지털 강아지. 모든 것의 허브.', status: 'active', layer: 'core', color: 0xffd700, orbit: 0, size: 1.8, speed: 0 },
-  // Traffic Engine (orbit 1)
-  { name: 'CMW', sub: 'Claw My Way', emoji: '🔥', desc: '정오 모티베이션. 실리콘밸리 레전드 명언 + 응원.', status: 'active', layer: 'traffic', color: 0xff6b6b, orbit: 4.5, size: 0.7, speed: 0.8, angle: 0 },
-  { name: '블로그', sub: 'jaykko-blog', emoji: '✍️', desc: 'Hugo + GitHub Pages. SEO 장기 유입.', status: 'building', layer: 'traffic', color: 0xff8c00, orbit: 4.5, size: 0.55, speed: 0.65, angle: 2.1 },
-  { name: '로파이', sub: 'Lo-Fi YouTube', emoji: '🎵', desc: 'Suno AI 로파이 → 유튜브 채널 + 숏폼 BGM.', status: 'planned', layer: 'traffic', color: 0xec4899, orbit: 4.5, size: 0.5, speed: 0.5, angle: 4.2 },
-  // Service Layer (orbit 2)
-  { name: 'AI Creative Lab', sub: '미니게임천국', emoji: '🧪', desc: '38개 인터랙티브 도구. 무료 트래픽 허브.', status: 'building', layer: 'service', color: 0x4ecdc4, orbit: 7.5, size: 0.8, speed: 0.45, angle: 0.5 },
-  { name: 'GAME', sub: 'Gallery About ME', emoji: '🎮', desc: '$0.99 PRO 멤버십. 온오프 다이어리 허브.', status: 'live', layer: 'service', color: 0x4ecdc4, orbit: 7.5, size: 0.9, speed: 0.35, angle: 2.6 },
-  { name: '넘버5스타', sub: 'Number 5 Star', emoji: '⭐', desc: '4.9~5.0 큐레이션 커뮤니티. GAME 통합 예정.', status: 'planned', layer: 'service', color: 0x4ecdc4, orbit: 7.5, size: 0.45, speed: 0.55, angle: 4.7 },
-  // Backend Engine (orbit 3)
-  { name: 'RedMoon', sub: 'Catch My Edge', emoji: '🔴', desc: '딜 파이프라인. 접수→초벌→모니터링→딜던.', status: 'building', layer: 'engine', color: 0xa855f7, orbit: 11, size: 0.7, speed: 0.3, angle: 0.3 },
-  { name: '넘버닥터', sub: 'Number Doctor', emoji: '🏥', desc: '빅4 20년차급 재무 진단. DART 기반.', status: 'live', layer: 'engine', color: 0xa855f7, orbit: 11, size: 0.65, speed: 0.25, angle: 1.9 },
-  { name: 'Eagle EYE', sub: 'Insight Finder', emoji: '🦅', desc: '트렌드/섹터 조기 포착 → 관련주 매핑.', status: 'building', layer: 'engine', color: 0xa855f7, orbit: 11, size: 0.6, speed: 0.35, angle: 3.5 },
-  { name: '업계레이더', sub: 'Industry Radar', emoji: '📡', desc: '신탁사/운용사/증권사 동향 실시간 감시.', status: 'planned', layer: 'engine', color: 0xa855f7, orbit: 11, size: 0.45, speed: 0.2, angle: 5.1 },
-  // Trading (orbit 4)
-  { name: '경매 스나이퍼', sub: 'Auction Sniper', emoji: '⚡', desc: 'AI 경매/공매 분석. 가치평가 자동화.', status: 'planned', layer: 'trading', color: 0x45b7d1, orbit: 14, size: 0.5, speed: 0.18, angle: 1.0 },
-  { name: '업비트 자동매매', sub: 'Crypto Bot', emoji: '📈', desc: 'pyupbit 크립토 트레이딩 봇.', status: 'planned', layer: 'trading', color: 0x45b7d1, orbit: 14, size: 0.5, speed: 0.15, angle: 4.1 },
-];
-
-// Scene setup
-const canvas = document.getElementById('canvas');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
-camera.position.set(0, 12, 20);
-camera.lookAt(0, 0, 0);
-
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-// Starfield
-const starGeo = new THREE.BufferGeometry();
-const starPositions = [];
-for (let i = 0; i < 3000; i++) {
-  starPositions.push((Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200);
-}
-starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
-const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.6 });
-scene.add(new THREE.Points(starGeo, starMat));
-
-// Ambient light
-scene.add(new THREE.AmbientLight(0x333355, 0.5));
-
-// Point light at center (sun)
-const sunLight = new THREE.PointLight(0xffd700, 2, 50);
-scene.add(sunLight);
-
-// Orbit rings
-const orbitRadii = [4.5, 7.5, 11, 14];
-const orbitColors = [0xff6b6b, 0x4ecdc4, 0xa855f7, 0x45b7d1];
-orbitRadii.forEach((r, i) => {
-  const ringGeo = new THREE.RingGeometry(r - 0.02, r + 0.02, 128);
-  const ringMat = new THREE.MeshBasicMaterial({ color: orbitColors[i], transparent: true, opacity: 0.15, side: THREE.DoubleSide });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = -Math.PI / 2;
-  scene.add(ring);
-});
-
-// Create planet meshes
-const planetMeshes = [];
-const textSprites = [];
-
-function createTextTexture(text, fontSize = 64) {
-  const c = document.createElement('canvas');
-  c.width = 256; c.height = 128;
-  const ctx = c.getContext('2d');
-  ctx.font = `${fontSize}px serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, 128, 64);
-  return new THREE.CanvasTexture(c);
-}
-
-function createLabelTexture(text) {
-  const c = document.createElement('canvas');
-  c.width = 512; c.height = 64;
-  const ctx = c.getContext('2d');
-  ctx.font = '28px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(text, 256, 32);
-  return new THREE.CanvasTexture(c);
-}
-
-brands.forEach((b, i) => {
-  // Planet sphere
-  const geo = new THREE.SphereGeometry(b.size, 32, 32);
-  const mat = new THREE.MeshStandardMaterial({
-    color: b.color,
-    emissive: b.color,
-    emissiveIntensity: b.orbit === 0 ? 0.8 : 0.3,
-    roughness: 0.4,
-    metalness: 0.3,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.userData = { brandIndex: i, brand: b };
-  
-  if (b.orbit === 0) {
-    mesh.position.set(0, 0, 0);
-  } else {
-    mesh.position.set(
-      Math.cos(b.angle) * b.orbit,
-      (Math.random() - 0.5) * 0.5,
-      Math.sin(b.angle) * b.orbit
-    );
-  }
-  scene.add(mesh);
-  planetMeshes.push(mesh);
-
-  // Emoji sprite
-  const emojiTex = createTextTexture(b.emoji, 80);
-  const emojiMat = new THREE.SpriteMaterial({ map: emojiTex, transparent: true });
-  const emojiSprite = new THREE.Sprite(emojiMat);
-  emojiSprite.scale.set(b.size * 2, b.size, 1);
-  emojiSprite.position.copy(mesh.position);
-  emojiSprite.position.y += b.size + 0.6;
-  scene.add(emojiSprite);
-
-  // Label sprite
-  const labelTex = createLabelTexture(b.name);
-  const labelMat = new THREE.SpriteMaterial({ map: labelTex, transparent: true, opacity: 0.7 });
-  const labelSprite = new THREE.Sprite(labelMat);
-  labelSprite.scale.set(4, 0.5, 1);
-  labelSprite.position.copy(mesh.position);
-  labelSprite.position.y -= b.size + 0.5;
-  scene.add(labelSprite);
-
-  textSprites.push({ emoji: emojiSprite, label: labelSprite, brand: b });
-});
-
-// Glow for center planet
-const glowGeo = new THREE.SphereGeometry(2.5, 32, 32);
-const glowMat = new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.08 });
-scene.add(new THREE.Mesh(glowGeo, glowMat));
-
-// Mouse controls (orbit)
-let isDragging = false;
-let prevMouse = { x: 0, y: 0 };
-let rotation = { x: 0.3, y: 0 };
-let targetRotation = { x: 0.3, y: 0 };
-let zoom = 20;
-let targetZoom = 20;
-
-canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
-canvas.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  targetRotation.y += (e.clientX - prevMouse.x) * 0.005;
-  targetRotation.x += (e.clientY - prevMouse.y) * 0.005;
-  targetRotation.x = Math.max(-1.2, Math.min(1.2, targetRotation.x));
-  prevMouse = { x: e.clientX, y: e.clientY };
-});
-canvas.addEventListener('mouseup', () => isDragging = false);
-canvas.addEventListener('mouseleave', () => isDragging = false);
-canvas.addEventListener('wheel', e => {
-  targetZoom += e.deltaY * 0.02;
-  targetZoom = Math.max(8, Math.min(40, targetZoom));
-});
-
-// Touch controls
-canvas.addEventListener('touchstart', e => {
-  isDragging = true;
-  prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-});
-canvas.addEventListener('touchmove', e => {
-  if (!isDragging) return;
-  targetRotation.y += (e.touches[0].clientX - prevMouse.x) * 0.005;
-  targetRotation.x += (e.touches[0].clientY - prevMouse.y) * 0.005;
-  targetRotation.x = Math.max(-1.2, Math.min(1.2, targetRotation.x));
-  prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  e.preventDefault();
-}, { passive: false });
-canvas.addEventListener('touchend', () => isDragging = false);
-
-// Click/tap to select
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-const panel = document.getElementById('infoPanel');
-
-function onSelect(e) {
-  const x = e.clientX || (e.touches && e.touches[0].clientX);
-  const y = e.clientY || (e.touches && e.touches[0].clientY);
-  mouse.x = (x / window.innerWidth) * 2 - 1;
-  mouse.y = -(y / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  const hits = raycaster.intersectObjects(planetMeshes);
-  if (hits.length > 0) {
-    const b = hits[0].object.userData.brand;
-    document.getElementById('ipEmoji').textContent = b.emoji;
-    document.getElementById('ipName').textContent = b.name;
-    document.getElementById('ipSub').textContent = b.sub;
-    document.getElementById('ipDesc').textContent = b.desc;
-    const st = document.getElementById('ipStatus');
-    st.textContent = b.status.toUpperCase();
-    st.className = 'ip-status ' + b.status;
-    panel.classList.add('show');
-  } else {
-    panel.classList.remove('show');
-  }
-}
-canvas.addEventListener('click', onSelect);
-
-// Animation
-function animate() {
-  requestAnimationFrame(animate);
-
-  // Smooth camera
-  rotation.x += (targetRotation.x - rotation.x) * 0.05;
-  rotation.y += (targetRotation.y - rotation.y) * 0.05;
-  zoom += (targetZoom - zoom) * 0.05;
-
-  camera.position.x = Math.sin(rotation.y) * Math.cos(rotation.x) * zoom;
-  camera.position.y = Math.sin(rotation.x) * zoom;
-  camera.position.z = Math.cos(rotation.y) * Math.cos(rotation.x) * zoom;
-  camera.lookAt(0, 0, 0);
-
-  // Orbit planets
-  const time = Date.now() * 0.001;
-  planetMeshes.forEach((mesh, i) => {
-    const b = mesh.userData.brand;
-    if (b.orbit === 0) {
-      mesh.rotation.y += 0.005;
-      return;
-    }
-    const a = b.angle + time * b.speed * 0.3;
-    mesh.position.x = Math.cos(a) * b.orbit;
-    mesh.position.z = Math.sin(a) * b.orbit;
-    mesh.rotation.y += 0.01;
-
-    // Update sprite positions
-    const sp = textSprites[i];
-    sp.emoji.position.x = mesh.position.x;
-    sp.emoji.position.z = mesh.position.z;
-    sp.emoji.position.y = mesh.position.y + b.size + 0.6;
-    sp.label.position.x = mesh.position.x;
-    sp.label.position.z = mesh.position.z;
-    sp.label.position.y = mesh.position.y - b.size - 0.5;
-  });
-
-  // Slow auto-rotate when not dragging
-  if (!isDragging) {
-    targetRotation.y += 0.001;
-  }
-
-  renderer.render(scene, camera);
-}
-animate();
-
-// Resize
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-</script>
 </body>
 </html>

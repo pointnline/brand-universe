@@ -181,7 +181,21 @@ body.light .status.active { background: #e0f0f8; }
   transition: all 0.3s ease;
   overflow: hidden;
   cursor: default;
+  text-decoration: none;
+  color: inherit;
 }
+a.card {
+  cursor: pointer;
+}
+a.card .link-hint {
+  display: inline-block;
+  font-size: 0.55rem;
+  color: #555;
+  margin-top: 6px;
+}
+a.card:hover .link-hint { color: #aaa; }
+body.light a.card .link-hint { color: #bbb; }
+body.light a.card:hover .link-hint { color: #666; }
 .card::before {
   content: '';
   position: absolute;
@@ -308,13 +322,14 @@ body.light .status.active { background: #e0f0f8; }
       <div class="desc">정오 모티베이션. 실리콘밸리 레전드 명언 + 응원.</div>
       <div class="status active">● ACTIVE</div>
     </div>
-    <div class="card orange">
+    <a class="card orange" href="https://pointnline.github.io/jaykko-blog/" target="_blank">
       <div class="emoji">✍️</div>
       <div class="name">블로그</div>
       <div class="sub">jaykko-blog</div>
       <div class="desc">Hugo + GitHub Pages. SEO 장기 유입. 자동화 예정.</div>
       <div class="status building">● BUILDING</div>
-    </div>
+      <div class="link-hint">🔗 바로가기</div>
+    </a>
     <div class="card pink">
       <div class="emoji">🎵</div>
       <div class="name">로파이</div>
@@ -331,20 +346,22 @@ body.light .status.active { background: #e0f0f8; }
   <!-- SERVICE LAYER -->
   <div class="layer-tag service">SERVICE LAYER</div>
   <div class="card-row">
-    <div class="card green">
+    <a class="card green" href="https://github.com/pointnline/ai-creative-club" target="_blank">
       <div class="emoji">🧪</div>
       <div class="name">AI Creative Lab</div>
       <div class="sub">미니게임천국</div>
       <div class="desc">38개 도구. 무료 트래픽 허브. 타임킬링 + 바이럴.</div>
       <div class="status building">● BUILDING</div>
-    </div>
-    <div class="card rainbow">
+      <div class="link-hint">🔗 GitHub</div>
+    </a>
+    <a class="card rainbow" href="https://gamegalleryaboutme.web.app" target="_blank">
       <div class="emoji">🎮</div>
       <div class="name">GAME</div>
       <div class="sub">Gallery About ME</div>
       <div class="desc">$0.99 PRO 멤버십. 온오프 다이어리 허브.</div>
       <div class="status live">● LIVE</div>
-    </div>
+      <div class="link-hint">🔗 바로가기</div>
+    </a>
     <div class="card purple">
       <div class="emoji">⭐</div>
       <div class="name">넘버5스타</div>
@@ -361,13 +378,14 @@ body.light .status.active { background: #e0f0f8; }
   <!-- BACKEND ENGINE -->
   <div class="layer-tag engine">BACKEND ENGINE</div>
   <div class="card-row">
-    <div class="card red">
+    <a class="card red" href="https://github.com/pointnline/redmoon" target="_blank">
       <div class="emoji">🔴</div>
       <div class="name">RedMoon</div>
       <div class="sub">Catch My Edge</div>
       <div class="desc">딜 파이프라인. 접수→초벌→모니터링→딜던.</div>
       <div class="status building">● BUILDING</div>
-    </div>
+      <div class="link-hint">🔗 GitHub</div>
+    </a>
     <div class="card green">
       <div class="emoji">🏥</div>
       <div class="name">넘버닥터</div>

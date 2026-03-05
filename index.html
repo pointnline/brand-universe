@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌈 Brand Universe — JAYKKo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+.header h1 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #45b7d1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+.header p {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Universe Container */
+.universe {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+/* Layer Labels */
+.layer {
+  margin-bottom: 30px;
+}
+.layer-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #555;
+  margin-bottom: 12px;
+  padding-left: 8px;
+  border-left: 3px solid;
+}
+.layer-label.core { border-color: #ffd700; color: #ffd700; }
+.layer-label.traffic { border-color: #ff6b6b; color: #ff6b6b; }
+.layer-label.service { border-color: #4ecdc4; color: #4ecdc4; }
+.layer-label.engine { border-color: #a855f7; color: #a855f7; }
+.layer-label.trading { border-color: #45b7d1; color: #45b7d1; }
+
+/* Card Grid */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* Brand Card */
+.card {
+  background: #12122a;
+  border: 1px solid #222;
+  border-radius: 16px;
+  padding: 20px;
+  width: 200px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #444;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.card .emoji {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.card .name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.card .sub {
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 8px;
+}
+.card .desc {
+  font-size: 0.75rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+.card .status {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.status.live { background: #1a3a2a; color: #4ecdc4; }
+.status.building { background: #3a2a1a; color: #ffa500; }
+.status.planned { background: #2a1a2a; color: #a855f7; }
+.status.active { background: #1a2a3a; color: #45b7d1; }
+
+/* Card color accents */
+.card.gold::before { background: linear-gradient(90deg, #ffd700, #ffaa00); }
+.card.red::before { background: linear-gradient(90deg, #ff6b6b, #ff4444); }
+.card.orange::before { background: linear-gradient(90deg, #ff8c00, #ffa500); }
+.card.green::before { background: linear-gradient(90deg, #4ecdc4, #2ecc71); }
+.card.purple::before { background: linear-gradient(90deg, #a855f7, #7c3aed); }
+.card.blue::before { background: linear-gradient(90deg, #45b7d1, #3b82f6); }
+.card.pink::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+.card.rainbow::before { background: linear-gradient(90deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #45b7d1, #a855f7); }
+
+/* Flow Section */
+.flow-section {
+  margin: 40px auto;
+  max-width: 600px;
+  text-align: center;
+}
+.flow-section h2 {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.flow-node {
+  background: #12122a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: relative;
+  min-width: 280px;
+}
+.flow-arrow {
+  color: #444;
+  font-size: 1.2rem;
+  padding: 4px 0;
+}
+.flow-node.traffic-node { border-color: #ff6b6b44; color: #ff6b6b; }
+.flow-node.service-node { border-color: #4ecdc444; color: #4ecdc4; }
+.flow-node.convert-node { border-color: #ffd70044; color: #ffd700; }
+.flow-node.community-node { border-color: #a855f744; color: #a855f7; }
+
+/* Engine Flow */
+.engine-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 16px;
+  background: #0d0d20;
+  border-radius: 12px;
+  border: 1px solid #1a1a3a;
+}
+.engine-flow .ef-item {
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #1a1a2e;
+  border: 1px solid #333;
+}
+.engine-flow .ef-arrow {
+  color: #555;
+  font-size: 0.9rem;
+}
+.ef-item.r { color: #ff6b6b; border-color: #ff6b6b44; }
+.ef-item.n { color: #4ecdc4; border-color: #4ecdc444; }
+.ef-item.e { color: #ffd700; border-color: #ffd70044; }
+.ef-item.u { color: #a855f7; border-color: #a855f744; }
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat .num {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffd700, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat .label {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 30px;
+  color: #333;
+  font-size: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card { width: 160px; padding: 14px; }
+  .card .emoji { font-size: 1.6rem; }
+  .card .name { font-size: 0.85rem; }
+  .header h1 { font-size: 1.5rem; }
+  .flow-node { min-width: 220px; font-size: 0.75rem; }
+}
+@media (max-width: 480px) {
+  .cards { gap: 10px; }
+  .card { width: 145px; padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌈 JAYKKo Brand Universe</h1>
+  <p>조경준의 디지털 생태계 — 13 Brands, 4 Layers</p>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="num">13</div><div class="label">Brands</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Layers</div></div>
+  <div class="stat"><div class="num">22+</div><div class="label">Cron Jobs</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">Ambition</div></div>
+</div>
+
+<div class="universe">
+
+  <!-- Core AI -->
+  <div class="layer">
+    <div class="layer-label core">CORE AI</div>
+    <div class="cards">
+      <div class="card gold">
+        <div class="emoji">🐕</div>
+        <div class="name">베리독</div>
+        <div class="sub">VeryDog</div>
+        <div class="desc">AI 총괄 비서. 무지개빛 디지털 강아지. 모든 것의 허브.</div>
+        <div class="status active">● ACTIVE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Traffic Engine -->
+  <div class="layer">
+    <div class="layer-label traffic">TRAFFIC ENGINE</div>
+    <div class="cards">
+      <div class="card red">
+        <div class="emoji">🔥</div>
+        <div class="name">CMW</div>
+        <div class="sub">Claw My Way</div>
+        <div class="desc">정오 모티베이션. 실리콘밸리 레전드 명언 + 응원. 뉴스레터/숏폼 확장.</div>
+        <div class="status active">● ACTIVE</div>
+      </div>
+      <div class="card orange">
+        <div class="emoji">✍️</div>
+        <div class="name">블로그</div>
+        <div class="sub">jaykko-blog</div>
+        <div class="desc">Hugo + GitHub Pages. SEO 장기 유입. 멀티플랫폼 자동화 예정.</div>
+        <div class="status building">● BUILDING</div>
+      </div>
+      <div class="card pink">
+        <div class="emoji">🎵</div>
+        <div class="name">로파이 유튜브</div>
+        <div class="sub">Lo-Fi Channel</div>
+        <div class="desc">Suno AI 로파이 생성 → 유튜브 채널 + 숏폼 BGM.</div>
+        <div class="status planned">● PLANNED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Layer -->
+  <div class="layer">
+    <div class="layer-label service">SERVICE LAYER</div>
+    <div class="cards">
+      <div class="card green">
+        <div class="emoji">🧪</div>
+        <div class="name">AI Creative Lab</div>
+        <div class="sub">미니게임천국</div>
+        <div class="desc">38개 인터랙티브 도구. 무료 트래픽 허브. 타임킬링 + 바이럴.</div>
+        <div class="status building">● BUILDING</div>
+      </div>
+      <div class="card rainbow">
+        <div class="emoji">🎮</div>
+        <div class="name">GAME</div>
+        <div class="sub">Gallery About ME</div>
+        <div class="desc">My Universe / Artists / Music / Books / Wine. $0.99 PRO 멤버십.</div>
+        <div class="status live">● LIVE</div>
+      </div>
+      <div class="card purple">
+        <div class="emoji">⭐</div>
+        <div class="name">넘버5스타</div>
+        <div class="sub">Number 5 Star</div>
+        <div class="desc">4.9~5.0 큐레이션 커뮤니티. GAME Phase 3 통합 예정.</div>
+        <div class="status planned">● PLANNED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backend Engine -->
+  <div class="layer">
+    <div class="layer-label engine">BACKEND ENGINE</div>
+    <div class="cards">
+      <div class="card red">
+        <div class="emoji">🔴</div>
+        <div class="name">RedMoon</div>
+        <div class="sub">Catch My Edge</div>
+        <div class="desc">딜 파이프라인. 접수 → 초벌보고서 → 모니터링 → 딜던.</div>
+        <div class="status building">● BUILDING</div>
+      </div>
+      <div class="card green">
+        <div class="emoji">🏥</div>
+        <div class="name">넘버닥터</div>
+        <div class="sub">Number Doctor</div>
+        <div class="desc">빅4 20년차급 재무 진단. DART 기반. SaaS ₩9,900/월.</div>
+        <div class="status live">● LIVE</div>
+      </div>
+      <div class="card gold">
+        <div class="emoji">🦅</div>
+        <div class="name">Eagle EYE</div>
+        <div class="sub">Insight Finder</div>
+        <div class="desc">트렌드/섹터 조기 포착 → 관련주 매핑 → 타이밍 시그널.</div>
+        <div class="status building">● BUILDING</div>
+      </div>
+      <div class="card purple">
+        <div class="emoji">📡</div>
+        <div class="name">업계레이더</div>
+        <div class="sub">Industry Radar</div>
+        <div class="desc">신탁사 / 운용사 / 증권사 동향 실시간 감시.</div>
+        <div class="status planned">● PLANNED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trading -->
+  <div class="layer">
+    <div class="layer-label trading">TRADING</div>
+    <div class="cards">
+      <div class="card blue">
+        <div class="emoji">⚡</div>
+        <div class="name">경매 스나이퍼</div>
+        <div class="sub">Auction Sniper</div>
+        <div class="desc">AI 경매/공매 분석. 감정가·낙찰가 자동 가치평가.</div>
+        <div class="status planned">● PLANNED</div>
+      </div>
+      <div class="card blue">
+        <div class="emoji">📈</div>
+        <div class="name">업비트 자동매매</div>
+        <div class="sub">Crypto Bot</div>
+        <div class="desc">pyupbit 기반 크립토 트레이딩 봇. 백테스트 + 리스크 관리.</div>
+        <div class="status planned">● PLANNED</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Ecosystem Flow -->
+<div class="flow-section">
+  <h2>ECOSYSTEM FLOW</h2>
+  
+  <div class="flow">
+    <div class="flow-node traffic-node">🔥 CMW + ✍️ 뉴스레터 + 🎵 로파이 + 블로그</div>
+    <div class="flow-arrow">↓ 트래픽</div>
+    <div class="flow-node service-node">🧪 AI Creative Lab (무료)</div>
+    <div class="flow-arrow">↓ 전환</div>
+    <div class="flow-node convert-node">🎮 GAME Project ($0.99 PRO)</div>
+    <div class="flow-arrow">↓ 통합</div>
+    <div class="flow-node community-node">⭐ 넘버5스타 (커뮤니티)</div>
+  </div>
+
+  <div class="engine-flow">
+    <div class="ef-item r">🔴 RedMoon</div>
+    <div class="ef-arrow">→</div>
+    <div class="ef-item n">🏥 넘버닥터</div>
+    <div class="ef-arrow">→</div>
+    <div class="ef-item e">🦅 Eagle EYE</div>
+    <div class="ef-arrow">→</div>
+    <div class="ef-item u">📡 업계레이더</div>
+  </div>
+</div>
+
+<div class="footer">
+  🌈🌙 JAYKKo Brand Universe v2 — Built by 베리독 | 2026.03.05
+</div>
+
+</body>
+</html>

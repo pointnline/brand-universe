@@ -3,448 +3,657 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌈 Brand Universe — JAYKKo</title>
+<title>🌌 Brand Universe — PointnLine</title>
+<meta name="description" content="PointnLine 브랜드 생태계 — 점을 연결해 선을 그린다">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #06060b;
+  --bg2: #0a0a12;
+  --bg3: #0e0e18;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dim: rgba(201,168,76,0.15);
+  --gold-glow: rgba(201,168,76,0.3);
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --text: rgba(255,255,255,0.92);
+  --text2: rgba(255,255,255,0.6);
+  --text3: rgba(255,255,255,0.38);
+  --rainbow: linear-gradient(135deg, #FF6B6B, #FFA94D, #FFD43B, #69DB7C, #4DABF7, #9775FA, #E599F7);
+  --red: #e74c3c;
+  --green: #43e97b;
+  --blue: #4DABF7;
+  --purple: #9775FA;
+  --cyan: #4ecdc4;
+  --orange: #f39c12;
+  --pink: #E599F7;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #0a0a1a;
-  color: #e0e0e0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  min-height: 100vh;
-  padding: 40px 20px 60px;
-  transition: background 0.4s, color 0.4s;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
 }
 
-/* Theme toggle */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 30px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  color: #aaa;
-  transition: all 0.3s;
-  backdrop-filter: blur(10px);
-}
-.theme-toggle:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
-
-/* Light theme */
-body.light {
-  background: #f5f5f8;
-  color: #1a1a2e;
-}
-body.light .header p { color: #999; }
-body.light .stat .label { color: #999; }
-body.light .card {
-  background: #ffffff;
-  border-color: #e0e0e8;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
-body.light .card:hover {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-  border-color: #ccc;
-}
-body.light .card .sub { color: #999; }
-body.light .card .desc { color: #777; }
-body.light .connector { background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.03)) !important; }
-body.light .flow-label { color: #bbb; }
-body.light .layer-tag.core { background: #fff8e0; }
-body.light .layer-tag.traffic { background: #ffe8e8; }
-body.light .layer-tag.service { background: #e0f8f5; }
-body.light .layer-tag.engine { background: #f0e8ff; }
-body.light .layer-tag.trading { background: #e0f0f8; }
-body.light .footer { color: #ccc; }
-body.light .theme-toggle {
-  background: rgba(0,0,0,0.05);
-  border-color: rgba(0,0,0,0.12);
-  color: #666;
-}
-body.light .theme-toggle:hover { border-color: rgba(0,0,0,0.25); color: #333; }
-body.light .status.live { background: #e0f8f5; }
-body.light .status.building { background: #fff3e0; }
-body.light .status.planned { background: #f0e8ff; }
-body.light .status.active { background: #e0f0f8; }
-
-/* Header */
-.header {
+/* ── Header ── */
+header {
   text-align: center;
-  margin-bottom: 50px;
-}
-.header h1 {
-  font-size: 2.2rem;
-  background: linear-gradient(135deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #45b7d1, #a855f7, #ec4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.header p { color: #555; font-size: 0.85rem; margin-top: 6px; }
-
-/* Stats bar */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 50px;
-  flex-wrap: wrap;
-}
-.stat { text-align: center; }
-.stat .num {
-  font-size: 2.4rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #ffd700, #ff6b6b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.stat .label { font-size: 0.7rem; color: #555; letter-spacing: 1px; text-transform: uppercase; }
-
-/* Org chart layout */
-.org {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-/* Connector lines */
-.connector {
-  width: 2px;
-  height: 28px;
-  background: linear-gradient(to bottom, rgba(255,215,0,0.4), rgba(255,215,0,0.1));
-}
-.connector.red { background: linear-gradient(to bottom, rgba(255,107,107,0.4), rgba(255,107,107,0.1)); }
-.connector.green { background: linear-gradient(to bottom, rgba(78,205,196,0.4), rgba(78,205,196,0.1)); }
-.connector.purple { background: linear-gradient(to bottom, rgba(168,85,247,0.4), rgba(168,85,247,0.1)); }
-.connector.blue { background: linear-gradient(to bottom, rgba(69,183,209,0.4), rgba(69,183,209,0.1)); }
-
-/* Horizontal branch line */
-.branch {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  padding: 5rem 2rem 3rem;
   position: relative;
 }
-.branch::before {
+header::before {
   content: '';
   position: absolute;
-  top: 0;
-  height: 2px;
+  top: 10%;
   left: 50%;
-  right: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
-.branch.traffic::before { left: calc(50% - 180px); right: calc(50% - 180px); background: rgba(255,107,107,0.25); }
-.branch.service::before { left: calc(50% - 180px); right: calc(50% - 180px); background: rgba(78,205,196,0.25); }
-.branch.engine::before { left: calc(50% - 260px); right: calc(50% - 260px); background: rgba(168,85,247,0.25); }
-.branch.trading::before { left: calc(50% - 120px); right: calc(50% - 120px); background: rgba(69,183,209,0.25); }
-
-/* Layer label */
-.layer-tag {
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 4px 14px;
-  border-radius: 20px;
-  border: 1px solid;
-  margin-bottom: 14px;
-  font-weight: 600;
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.3em;
 }
-.layer-tag.core { color: #ffd700; border-color: #ffd70044; background: #ffd70010; }
-.layer-tag.traffic { color: #ff6b6b; border-color: #ff6b6b44; background: #ff6b6b10; }
-.layer-tag.service { color: #4ecdc4; border-color: #4ecdc444; background: #4ecdc410; }
-.layer-tag.engine { color: #a855f7; border-color: #a855f744; background: #a855f710; }
-.layer-tag.trading { color: #45b7d1; border-color: #45b7d144; background: #45b7d110; }
+header .tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--text2);
+  font-style: italic;
+}
+header .updated {
+  font-size: 0.75rem;
+  color: var(--text3);
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
 
-/* Card row */
-.card-row {
+/* ── Layer ── */
+.layer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+.layer-header {
   display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.layer-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3em 0.8em;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.layer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.layer-desc {
+  font-size: 0.8rem;
+  color: var(--text3);
 }
 
-/* Brand Card */
+/* Layer colors */
+.layer-main .layer-badge { color: var(--gold); border-color: var(--gold-dim); background: rgba(201,168,76,0.08); }
+.layer-main .layer-title { color: var(--gold-light); }
+
+.layer-root .layer-badge { color: var(--purple); border-color: rgba(151,117,250,0.3); background: rgba(151,117,250,0.08); }
+.layer-root .layer-title { color: #c4b5fd; }
+
+.layer-finance .layer-badge { color: var(--red); border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.08); }
+.layer-finance .layer-title { color: #f87171; }
+
+.layer-content .layer-badge { color: var(--cyan); border-color: rgba(78,205,196,0.3); background: rgba(78,205,196,0.08); }
+.layer-content .layer-title { color: #67e8f9; }
+
+.layer-infra .layer-badge { color: var(--text2); border-color: var(--glass-border); background: var(--glass-bg); }
+.layer-infra .layer-title { color: var(--text2); }
+
+/* ── Cards ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+}
 .card {
-  background: #111128;
-  border: 1px solid #1e1e3a;
-  border-radius: 14px;
-  padding: 18px 16px;
-  width: 185px;
-  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  backdrop-filter: blur(20px);
   transition: all 0.3s ease;
-  overflow: hidden;
-  cursor: default;
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
-}
-a.card {
-  cursor: pointer;
-}
-a.card .link-hint {
-  display: inline-block;
-  font-size: 0.55rem;
-  color: #555;
-  margin-top: 6px;
-}
-a.card:hover .link-hint { color: #aaa; }
-body.light a.card .link-hint { color: #bbb; }
-body.light a.card:hover .link-hint { color: #666; }
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: 14px 14px 0 0;
+  display: block;
+  position: relative;
+  overflow: hidden;
 }
 .card:hover {
-  transform: translateY(-4px);
-  border-color: #333;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+  border-color: var(--gold-dim);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.08);
 }
-.card .emoji { font-size: 1.8rem; margin-bottom: 6px; }
-.card .name { font-size: 0.95rem; font-weight: 700; }
-.card .sub { font-size: 0.65rem; color: #666; margin-bottom: 6px; }
-.card .desc { font-size: 0.7rem; color: #999; line-height: 1.4; }
-.card .status {
-  display: inline-block;
-  font-size: 0.6rem;
-  padding: 2px 8px;
-  border-radius: 8px;
-  margin-top: 8px;
-  font-weight: 600;
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
 }
-.status.live { background: #14352a; color: #4ecdc4; }
-.status.building { background: #352a14; color: #ffa500; }
-.status.planned { background: #2a1435; color: #a855f7; }
-.status.active { background: #142a35; color: #45b7d1; }
-
-/* Card colors */
-.card.gold::before { background: linear-gradient(90deg, #ffd700, #ffaa00); }
-.card.red::before { background: linear-gradient(90deg, #ff6b6b, #ff4444); }
-.card.orange::before { background: linear-gradient(90deg, #ff8c00, #ffa500); }
-.card.pink::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
-.card.green::before { background: linear-gradient(90deg, #4ecdc4, #2ecc71); }
-.card.rainbow::before { background: linear-gradient(90deg, #ff6b6b, #ffa500, #ffd700, #4ecdc4, #a855f7); }
-.card.purple::before { background: linear-gradient(90deg, #a855f7, #7c3aed); }
-.card.blue::before { background: linear-gradient(90deg, #45b7d1, #3b82f6); }
-
-/* Center card (bigger) */
-.card.center {
-  width: 220px;
-  padding: 22px 20px;
-  border-color: #ffd70033;
-  box-shadow: 0 0 40px rgba(255,215,0,0.08);
+.card-icon {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  flex-shrink: 0;
 }
-.card.center .emoji { font-size: 2.4rem; }
-.card.center .name { font-size: 1.15rem; }
-
-/* Flow arrows between layers */
-.flow-label {
-  font-size: 0.6rem;
-  color: #444;
-  letter-spacing: 1px;
-  padding: 2px 0;
+.card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
-
-/* Footer */
-.footer {
-  text-align: center;
-  margin-top: 50px;
-  color: #222;
+.card-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--text3);
+  font-style: italic;
+}
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.status-badge {
   font-size: 0.65rem;
+  font-weight: 500;
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+.status-live { background: rgba(67,233,123,0.12); color: var(--green); border: 1px solid rgba(67,233,123,0.25); }
+.status-dev { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid var(--gold-dim); }
+.status-active { background: rgba(77,171,247,0.12); color: var(--blue); border: 1px solid rgba(77,171,247,0.25); }
+.theme-badge {
+  font-size: 0.6rem;
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(255,255,255,0.05);
+  color: var(--text3);
+  border: 1px solid var(--glass-border);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .card { width: 155px; padding: 14px 12px; }
-  .card.center { width: 180px; }
-  .card .emoji { font-size: 1.5rem; }
-  .card .name { font-size: 0.85rem; }
-  .header h1 { font-size: 1.6rem; }
-  .stats { gap: 24px; }
-  .stat .num { font-size: 1.8rem; }
+/* ── Progress ── */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 2px;
+  margin-top: 1rem;
+  overflow: hidden;
 }
-@media (max-width: 480px) {
-  body { padding: 20px 10px 40px; }
-  .card { width: 140px; padding: 12px 10px; }
-  .card-row { gap: 8px; }
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+/* ── Main cards special ── */
+.layer-main .card { border-color: rgba(201,168,76,0.12); }
+.layer-main .card:hover { box-shadow: 0 8px 40px rgba(201,168,76,0.12); }
+.layer-main .progress-fill { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.layer-root .progress-fill { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.layer-finance .progress-fill { background: linear-gradient(90deg, #dc2626, #f87171); }
+.layer-content .progress-fill { background: linear-gradient(90deg, #0891b2, #67e8f9); }
+.layer-infra .progress-fill { background: linear-gradient(90deg, #6b7280, #9ca3af); }
+
+/* ── Connector visualization ── */
+.connector-section {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.connector-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--text3);
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+.flow-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.flow-node {
+  font-size: 0.75rem;
+  color: var(--text2);
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--glass-bg);
+}
+.flow-arrow { color: var(--gold); font-size: 0.9rem; }
+
+/* ── Stats ── */
+.stats {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 3rem;
+}
+footer p {
+  font-size: 0.8rem;
+  color: var(--text3);
+}
+footer a { color: var(--gold); text-decoration: none; }
+.rainbow-bar {
+  height: 2px;
+  background: var(--rainbow);
+  margin-bottom: 2rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .stats { gap: 1.5rem; }
+  .stat-num { font-size: 1.8rem; }
 }
 </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+<!-- Header -->
+<header>
+  <h1>Brand Universe</h1>
+  <p class="tagline">"역사의 점(Point)을 연결해 미래의 선(Line)을 그린다"</p>
+  <p class="updated">Last updated: 2026.03.09</p>
+</header>
 
-<div class="header">
-  <h1>🌈 JAYKKo Brand Universe</h1>
-  <p>조경준의 디지털 생태계</p>
-</div>
-
+<!-- Stats -->
 <div class="stats">
-  <div class="stat"><div class="num">13</div><div class="label">Brands</div></div>
-  <div class="stat"><div class="num">4</div><div class="label">Layers</div></div>
-  <div class="stat"><div class="num">23</div><div class="label">Cron Jobs</div></div>
-  <div class="stat"><div class="num">∞</div><div class="label">Ambition</div></div>
+  <div class="stat"><div class="stat-num">16</div><div class="stat-label">Total Brands</div></div>
+  <div class="stat"><div class="stat-num">8</div><div class="stat-label">Live</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label">Main Projects</div></div>
 </div>
 
-<div class="org">
-
-  <!-- CORE AI -->
-  <div class="layer-tag core">CORE AI</div>
-  <div class="card-row">
-    <div class="card gold center">
-      <div class="emoji">🐕</div>
-      <div class="name">베리독</div>
-      <div class="sub">VeryDog — AI 총괄 비서</div>
-      <div class="desc">무지개빛 디지털 강아지. 13개 브랜드를 관장하는 허브.</div>
-      <div class="status active">● ACTIVE</div>
-    </div>
+<!-- MAIN -->
+<div class="layer layer-main">
+  <div class="layer-header">
+    <span class="layer-badge">★ MAIN</span>
+    <span class="layer-title">메인 프로젝트</span>
+    <span class="layer-desc">— 핵심 서비스</span>
   </div>
-
-  <div class="connector"></div>
-  <div class="flow-label">↓ 트래픽 생성</div>
-  <div class="connector red"></div>
-
-  <!-- TRAFFIC ENGINE -->
-  <div class="layer-tag traffic">TRAFFIC ENGINE</div>
-  <div class="card-row">
-    <div class="card red">
-      <div class="emoji">🔥</div>
-      <div class="name">CMW</div>
-      <div class="sub">Claw My Way</div>
-      <div class="desc">정오 모티베이션. 실리콘밸리 레전드 명언 + 응원.</div>
-      <div class="status active">● ACTIVE</div>
-    </div>
-    <a class="card orange" href="https://pointnline.github.io/jaykko-blog/" target="_blank">
-      <div class="emoji">✍️</div>
-      <div class="name">블로그</div>
-      <div class="sub">jaykko-blog</div>
-      <div class="desc">Hugo + GitHub Pages. SEO 장기 유입. 자동화 예정.</div>
-      <div class="status building">● BUILDING</div>
-      <div class="link-hint">🔗 바로가기</div>
+  <div class="card-grid">
+    <a class="card" href="https://pointnline.github.io/rainbowmoon/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">🌈</div>
+        <div>
+          <div class="card-name">RainbowMoon</div>
+          <div class="card-tagline">Create a Good Life by Point & Line</div>
+        </div>
+      </div>
+      <div class="card-desc">종이 다이어리와 AI를 연결하여 삶을 설계하는 운영체제. 7 Moons 만다라트 + OCR + AI 코칭.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
     </a>
-    <div class="card pink">
-      <div class="emoji">🎵</div>
-      <div class="name">로파이</div>
-      <div class="sub">Lo-Fi YouTube</div>
-      <div class="desc">Suno AI 로파이 → 유튜브 + 숏폼 BGM.</div>
-      <div class="status planned">○ PLANNED</div>
-    </div>
-  </div>
-
-  <div class="connector green"></div>
-  <div class="flow-label">↓ 유입 → 전환</div>
-  <div class="connector green"></div>
-
-  <!-- SERVICE LAYER -->
-  <div class="layer-tag service">SERVICE LAYER</div>
-  <div class="card-row">
-    <a class="card green" href="https://github.com/pointnline/ai-creative-club" target="_blank">
-      <div class="emoji">🧪</div>
-      <div class="name">AI Creative Lab</div>
-      <div class="sub">미니게임천국</div>
-      <div class="desc">38개 도구. 무료 트래픽 허브. 타임킬링 + 바이럴.</div>
-      <div class="status building">● BUILDING</div>
-      <div class="link-hint">🔗 GitHub</div>
+    <a class="card" href="https://gamegalleryaboutme.web.app" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">🎮</div>
+        <div>
+          <div class="card-name">GAME</div>
+          <div class="card-tagline">Gallery About ME — Know yourself</div>
+        </div>
+      </div>
+      <div class="card-desc">나를 정의하는 갤러리. Universe · Artists · Music · Books 4개 존 + Firebase + Stripe 결제 예정.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
     </a>
-    <a class="card rainbow" href="https://gamegalleryaboutme.web.app" target="_blank">
-      <div class="emoji">🎮</div>
-      <div class="name">GAME</div>
-      <div class="sub">Gallery About ME</div>
-      <div class="desc">$0.99 PRO 멤버십. 온오프 다이어리 허브.</div>
-      <div class="status live">● LIVE</div>
-      <div class="link-hint">🔗 바로가기</div>
-    </a>
-    <div class="card purple">
-      <div class="emoji">⭐</div>
-      <div class="name">넘버5스타</div>
-      <div class="sub">Number 5 Star</div>
-      <div class="desc">4.9~5.0 큐레이션. GAME Phase 3 통합.</div>
-      <div class="status planned">○ PLANNED</div>
-    </div>
   </div>
-
-  <div class="connector purple"></div>
-  <div class="flow-label">↓ 인텔리전스</div>
-  <div class="connector purple"></div>
-
-  <!-- BACKEND ENGINE -->
-  <div class="layer-tag engine">BACKEND ENGINE</div>
-  <div class="card-row">
-    <a class="card red" href="https://github.com/pointnline/redmoon" target="_blank">
-      <div class="emoji">🔴</div>
-      <div class="name">RedMoon</div>
-      <div class="sub">Catch My Edge</div>
-      <div class="desc">딜 파이프라인. 접수→초벌→모니터링→딜던.</div>
-      <div class="status building">● BUILDING</div>
-      <div class="link-hint">🔗 GitHub</div>
-    </a>
-    <div class="card green">
-      <div class="emoji">🏥</div>
-      <div class="name">넘버닥터</div>
-      <div class="sub">Number Doctor</div>
-      <div class="desc">빅4 20년차급 재무 진단. DART 기반.</div>
-      <div class="status live">● LIVE</div>
-    </div>
-    <div class="card gold">
-      <div class="emoji">🦅</div>
-      <div class="name">Eagle EYE</div>
-      <div class="sub">Insight Finder</div>
-      <div class="desc">트렌드/섹터 조기 포착 → 관련주 매핑.</div>
-      <div class="status building">● BUILDING</div>
-    </div>
-    <div class="card purple">
-      <div class="emoji">📡</div>
-      <div class="name">업계레이더</div>
-      <div class="sub">Industry Radar</div>
-      <div class="desc">신탁사/운용사/증권사 동향 감시.</div>
-      <div class="status planned">○ PLANNED</div>
-    </div>
-  </div>
-
-  <div class="connector blue"></div>
-  <div class="flow-label">↓ 자동 수익</div>
-  <div class="connector blue"></div>
-
-  <!-- TRADING -->
-  <div class="layer-tag trading">TRADING</div>
-  <div class="card-row">
-    <div class="card blue">
-      <div class="emoji">⚡</div>
-      <div class="name">경매 스나이퍼</div>
-      <div class="sub">Auction Sniper</div>
-      <div class="desc">AI 경매/공매 분석. 가치평가 자동화.</div>
-      <div class="status planned">○ PLANNED</div>
-    </div>
-    <div class="card blue">
-      <div class="emoji">📈</div>
-      <div class="name">업비트 자동매매</div>
-      <div class="sub">Crypto Bot</div>
-      <div class="desc">pyupbit 크립토 트레이딩 봇.</div>
-      <div class="status planned">○ PLANNED</div>
-    </div>
-  </div>
-
 </div>
 
-<div class="footer">
-  🌈🌙 JAYKKo Brand Universe v2 — Built by 베리독 | 2026.03.05
+<!-- ROOT -->
+<div class="layer layer-root">
+  <div class="layer-header">
+    <span class="layer-badge">ROOT</span>
+    <span class="layer-title">Ancient One</span>
+    <span class="layer-desc">— 전체 생태계의 뿌리</span>
+  </div>
+  <div class="card-grid">
+    <a class="card" href="https://pointnline.github.io/finance-history/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">🏛️</div>
+        <div>
+          <div class="card-name">Ancient One</div>
+          <div class="card-tagline">"I've seen this before."</div>
+        </div>
+      </div>
+      <div class="card-desc">현재 고민 입력 → 유사 역사 매칭 → 교훈/가이드. BC3000~2026 금융역사 261개 사건 DB.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+    </a>
+  </div>
 </div>
 
-<script>
-function toggleTheme() {
-  document.body.classList.toggle('light');
-  localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
-}
-// Remember preference
-if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
-</script>
+<!-- FINANCIAL -->
+<div class="layer layer-finance">
+  <div class="layer-header">
+    <span class="layer-badge">FINANCIAL</span>
+    <span class="layer-title">금융 도구</span>
+    <span class="layer-desc">— 딜 파이프라인 & 분석</span>
+  </div>
+  <div class="card-grid">
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">🔴</div>
+        <div>
+          <div class="card-name">RedMoon</div>
+          <div class="card-tagline">Catch My Edge</div>
+        </div>
+      </div>
+      <div class="card-desc">딜 접수 → 기업 분석 → 사업성 검토. 3엔진 병렬 파이프라인 + 경쟁사/부동산 인텔 크론.</div>
+      <div class="card-meta">
+        <span class="status-badge status-dev">IN DEV</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">🏥</div>
+        <div>
+          <div class="card-name">넘버닥터</div>
+          <div class="card-tagline">숫자로 진단합니다</div>
+        </div>
+      </div>
+      <div class="card-desc">DART 기반 재무제표 자동 파싱 → 글로벌 IB 기준 진단서. 동종업계 비교 + Brave 뉴스 연동.</div>
+      <div class="card-meta">
+        <span class="status-badge status-dev">IN DEV</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+    </a>
+    <a class="card" href="https://pointnline.github.io/eagle-eye/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">🦅</div>
+        <div>
+          <div class="card-name">Eagle EYE</div>
+          <div class="card-tagline">트렌드를 먼저 본다</div>
+        </div>
+      </div>
+      <div class="card-desc">시장 체온계 (Level 0~4) + 섹터 로테이션 모니터 + 판단기록 DB.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+    </a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="layer layer-content">
+  <div class="layer-header">
+    <span class="layer-badge">CONTENT</span>
+    <span class="layer-title">콘텐츠 & 커뮤니케이션</span>
+    <span class="layer-desc">— 브랜드 목소리</span>
+  </div>
+  <div class="card-grid">
+    <a class="card" href="https://pointnline.github.io/jaykko-blog/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">📝</div>
+        <div>
+          <div class="card-name">JAYKKo Blog</div>
+          <div class="card-tagline">Hugo Stack 테마</div>
+        </div>
+      </div>
+      <div class="card-desc">SEO 장기 유입 채널. 자동 포스팅 크론 운영 중. 티스토리/Medium 연동 예정.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">🔥</div>
+        <div>
+          <div class="card-name">CMW</div>
+          <div class="card-tagline">Claw My Way</div>
+        </div>
+      </div>
+      <div class="card-desc">일일 영감 & 모티베이션. v1 텍스트 크론 → v2 카드 이미지 → v3 뉴스레터.</div>
+      <div class="card-meta">
+        <span class="status-badge status-active">ACTIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">📜</div>
+        <div>
+          <div class="card-name">철학 데일리</div>
+          <div class="card-tagline">나이트소드</div>
+        </div>
+      </div>
+      <div class="card-desc">그림+팩트체크+고전+트렌드. 4일 로테이션 A→C→D→B. 매일 22:00 자동 발행.</div>
+      <div class="card-meta">
+        <span class="status-badge status-active">ACTIVE</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">🤖</div>
+        <div>
+          <div class="card-name">AI Creative Lab</div>
+          <div class="card-tagline">43 AI Tools</div>
+        </div>
+      </div>
+      <div class="card-desc">미니게임천국 — 금융/크리에이티브/생산성/학습 도구 43개. 바이럴 트래픽 유입 허브.</div>
+      <div class="card-meta">
+        <span class="status-badge status-dev">IN DEV</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+    </a>
+  </div>
+</div>
+
+<!-- INFRASTRUCTURE -->
+<div class="layer layer-infra">
+  <div class="layer-header">
+    <span class="layer-badge">INFRA</span>
+    <span class="layer-title">인프라 & 학습</span>
+    <span class="layer-desc">— 시스템 기반</span>
+  </div>
+  <div class="card-grid">
+    <a class="card" href="https://pointnline.github.io/design-system/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">🎨</div>
+        <div>
+          <div class="card-name">Design System</div>
+          <div class="card-tagline">PointnLine 시그니처</div>
+        </div>
+      </div>
+      <div class="card-desc">Dark Glassmorphism + Gold. 앱/서비스는 다크, 학습자료는 라이트 듀얼 모드.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK + ☀️ LIGHT</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+    </a>
+    <a class="card" href="https://pointnline.github.io/corporate-finance-map/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div>
+          <div class="card-name">기업재무 Map</div>
+          <div class="card-tagline">인터랙티브 학습</div>
+        </div>
+      </div>
+      <div class="card-desc">기업재무 구조를 인터랙티브 웹으로 학습. 라이트 테마.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">☀️ LIGHT</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    </a>
+    <a class="card" href="https://pointnline.github.io/project-dashboard/" target="_blank">
+      <div class="card-top">
+        <div class="card-icon">📋</div>
+        <div>
+          <div class="card-name">프로젝트 대시보드</div>
+          <div class="card-tagline">전체 현황 한눈에</div>
+        </div>
+      </div>
+      <div class="card-desc">16개 프로젝트 진행률, 마일스톤, 다음 액션을 실시간 추적.</div>
+      <div class="card-meta">
+        <span class="status-badge status-live">LIVE</span>
+        <span class="theme-badge">🌙 DARK</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">⚔️</div>
+        <div>
+          <div class="card-name">ADHD Quest</div>
+          <div class="card-tagline">RPG 게이미피케이션</div>
+        </div>
+      </div>
+      <div class="card-desc">ADHD 관리를 RPG로. XP/레벨/스트릭 시스템 + 아침/저녁 크론.</div>
+      <div class="card-meta">
+        <span class="status-badge status-active">ACTIVE</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+    </a>
+    <a class="card" href="#">
+      <div class="card-top">
+        <div class="card-icon">🏭</div>
+        <div>
+          <div class="card-name">원자재 모니터링</div>
+          <div class="card-tagline">TradingEconomics 기반</div>
+        </div>
+      </div>
+      <div class="card-desc">6개 카테고리 원자재 가격 모니터링. 매일 11:30 자동 발행.</div>
+      <div class="card-meta">
+        <span class="status-badge status-active">ACTIVE</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+    </a>
+  </div>
+</div>
+
+<!-- Ecosystem Flow -->
+<div class="connector-section">
+  <div class="rainbow-bar"></div>
+  <p class="connector-title">Ecosystem Flow — 트래픽 생태계</p>
+  <div class="flow-line">
+    <div class="flow-node">📢 텔레그램 채널</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🤖 AI Creative Lab</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🎮 GAME (PRO $0.99)</div>
+  </div>
+  <div class="flow-line">
+    <div class="flow-node">📝 Blog (SEO)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🌈 RainbowMoon</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">💰 SaaS 전환</div>
+  </div>
+  <div class="flow-line" style="margin-top: 1.5rem; opacity: 0.5;">
+    <div class="flow-node">🏛️ Ancient One (ROOT DATA)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🦅 Eagle EYE</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🔴 RedMoon</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node">🏥 넘버닥터</div>
+  </div>
+</div>
+
+<footer>
+  <p>Built with 🌈 by <a href="https://github.com/pointnline" target="_blank">Point & Line</a></p>
+  <p style="margin-top: 0.5rem;">© 2026 PointnLine Brand Universe · v5.0</p>
+</footer>
+
 </body>
 </html>
